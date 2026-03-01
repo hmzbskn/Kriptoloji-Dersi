@@ -26,7 +26,7 @@ namespace Şifreleme_Programı
         {
             sifreleme.pSifre = txtbox_amacMetin.Text;
             
-            txtbox_sonucMetin.Text = sifreleme.Sifreleme(cmb_Tur.SelectedIndex ,(int)num_key.Value, (int)num_key2.Value);
+            txtbox_sonucMetin.Text = sifreleme.Sifreleme(cmb_Tur.SelectedIndex ,(int)num_key.Value, (int)num_key2.Value , txtBox_key1.Text);
 
             btn_EpostaGonder.Enabled = true;
         }
@@ -38,35 +38,50 @@ namespace Şifreleme_Programı
             btn_EpostaGonder.Enabled = false;
             num_key.Visible = false;
             label4.Visible = false;
+            txtBox_key1.Visible = false;
         }
 
         private void cmb_Tur_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmb_Tur.SelectedIndex == 2 || cmb_Tur.SelectedIndex == 5 )
-            {
-                num_key2.Visible = true;
-                lbl_Anahtar2.Visible = true;
 
-            }
-
-            if (cmb_Tur.SelectedIndex == 1   || cmb_Tur.SelectedIndex == 4 || cmb_Tur.SelectedIndex == 6 || cmb_Tur.SelectedIndex == 7)
-            {
-                num_key2.Visible = false;
-                lbl_Anahtar2.Visible = false;
-
-            }
-            if (cmb_Tur.SelectedIndex == 0 || cmb_Tur.SelectedIndex == 3)
+            if (cmb_Tur.SelectedIndex == 0)
             {
                 num_key.Visible = false;
                 label4.Visible = false;
                 num_key2.Visible = false;
                 lbl_Anahtar2.Visible = false;
             }
+            if (cmb_Tur.SelectedIndex == 1 || cmb_Tur.SelectedIndex == 4 || cmb_Tur.SelectedIndex == 6 || cmb_Tur.SelectedIndex == 7)
+            {
+                num_key2.Visible = false;
+                lbl_Anahtar2.Visible = false;
+                txtBox_key1.Visible = false;
+
+            }
+            if (cmb_Tur.SelectedIndex == 2 || cmb_Tur.SelectedIndex == 5 )
+            {
+                num_key.Visible = true;
+                label4.Visible = true;
+                num_key2.Visible = true;
+                lbl_Anahtar2.Visible = true;
+                txtBox_key1.Visible = false;
+            }
+
+            if (cmb_Tur.SelectedIndex == 3)
+            {
+                num_key.Visible = false;
+                label4.Visible = true;
+                num_key2.Visible = false;
+                lbl_Anahtar2.Visible = false;
+                txtBox_key1.Visible = true;
+            }
+
             if (cmb_Tur.SelectedIndex == 1 || cmb_Tur.SelectedIndex == 4 || cmb_Tur.SelectedIndex == 6 || cmb_Tur.SelectedIndex == 7 || cmb_Tur.SelectedIndex == 2 || cmb_Tur.SelectedIndex == 5)
             {
                 num_key.Visible = true;
                 label4.Visible = true;
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)

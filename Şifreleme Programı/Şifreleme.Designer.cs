@@ -43,6 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btn_EpostaGonder = new System.Windows.Forms.Button();
+            this.txtBox_key1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.num_key)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_key2)).BeginInit();
             this.SuspendLayout();
@@ -137,7 +138,7 @@
             // lbl_Anahtar2
             // 
             this.lbl_Anahtar2.AutoSize = true;
-            this.lbl_Anahtar2.Location = new System.Drawing.Point(613, 356);
+            this.lbl_Anahtar2.Location = new System.Drawing.Point(613, 396);
             this.lbl_Anahtar2.Name = "lbl_Anahtar2";
             this.lbl_Anahtar2.Size = new System.Drawing.Size(81, 20);
             this.lbl_Anahtar2.TabIndex = 28;
@@ -145,7 +146,7 @@
             // 
             // num_key2
             // 
-            this.num_key2.Location = new System.Drawing.Point(532, 379);
+            this.num_key2.Location = new System.Drawing.Point(532, 419);
             this.num_key2.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -188,12 +189,20 @@
             this.btn_EpostaGonder.UseVisualStyleBackColor = true;
             this.btn_EpostaGonder.Click += new System.EventHandler(this.btn_EpostaGonder_Click);
             // 
+            // txtBox_key1
+            // 
+            this.txtBox_key1.Location = new System.Drawing.Point(533, 335);
+            this.txtBox_key1.Name = "txtBox_key1";
+            this.txtBox_key1.Size = new System.Drawing.Size(231, 26);
+            this.txtBox_key1.TabIndex = 32;
+            // 
             // Şifreleme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1286, 783);
+            this.Controls.Add(this.txtBox_key1);
             this.Controls.Add(this.btn_EpostaGonder);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label5);
@@ -235,5 +244,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btn_EpostaGonder;
+        private System.Windows.Forms.TextBox txtBox_key1;
     }
 }

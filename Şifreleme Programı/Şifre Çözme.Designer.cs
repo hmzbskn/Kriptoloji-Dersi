@@ -42,6 +42,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.txtBox_key1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nmr_Key)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmr_Key2)).BeginInit();
             this.SuspendLayout();
@@ -179,11 +180,19 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // txtBox_key1
+            // 
+            this.txtBox_key1.Location = new System.Drawing.Point(531, 309);
+            this.txtBox_key1.Name = "txtBox_key1";
+            this.txtBox_key1.Size = new System.Drawing.Size(231, 26);
+            this.txtBox_key1.TabIndex = 33;
+            // 
             // Şifre_Çözme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1290, 682);
+            this.Controls.Add(this.txtBox_key1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lbl_key2);
@@ -222,5 +231,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox txtBox_key1;
     }
 }

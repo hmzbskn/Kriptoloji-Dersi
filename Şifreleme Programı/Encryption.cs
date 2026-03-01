@@ -94,7 +94,7 @@ namespace Şifreleme_Programı
 
         }
 
-        public string Sifreleme(int tur, int key1 = 0 , int key2 = 0) 
+        public string Sifreleme(int tur, int key1 = 0 , int key2 = 0, string sKey1 = "") 
         {
 
             metinTemizleme();
@@ -107,7 +107,7 @@ namespace Şifreleme_Programı
                 case 2:
                     return Doğrusal_Sifreleme(key1,key2); // tamam
                 case 3:
-                    return YerDegistirme_Sifreleme(); // tamam
+                    return YerDegistirme_Sifreleme(sKey1); // tamam
                 case 4:
                     return SayiAnahtarli_Sifreleme(key1);
                 case 5:
@@ -171,9 +171,10 @@ namespace Şifreleme_Programı
             }
             return temp;
         }
-        private string YerDegistirme_Sifreleme()
+        private string YerDegistirme_Sifreleme(string sKey1)
         {
-            char[] metinDizisi = sonucMetin.ToCharArray();
+
+            char[] metinDizisi = sKey1.Trim().ToCharArray();
             string temp = "";
 
             for (int i = 0; i < sonucMetin.Length; i++)
@@ -372,7 +373,7 @@ namespace Şifreleme_Programı
             }
             return hedef;
         }
-        public string SifreCozme(int tur, int key1 = 0, int key2 = 0) // anahtar için opsiyonel parametre yap
+        public string SifreCozme(int tur, int key1 = 0, int key2 = 0, string sKey1 = "") // anahtar için opsiyonel parametre yap
         {
 
             metinTemizleme();
@@ -385,7 +386,7 @@ namespace Şifreleme_Programı
                 case 2:
                     return Doğrusal_SifreCozme(key1, key2);
                 case 3:
-                    return YerDegistirme_SifreCozme();
+                    return YerDegistirme_SifreCozme(sKey1);
                 case 4:
                     return SayiAnahtarli_SifreCozme(key1);
                 case 5:
@@ -600,16 +601,16 @@ namespace Şifreleme_Programı
             return cozulmusMetin.TrimEnd('r');
         }
 
-        private string YerDegistirme_SifreCozme()
+        private string YerDegistirme_SifreCozme(string sKey1)
         {
-            char[] metinDizisi = sonucMetin.ToCharArray();
+            char[] metinDizisi = sKey1.Trim().ToCharArray();
             string temp = "";
 
             for (int i = 0; i < sonucMetin.Length; i++)
             {
-                for (int j = 0; j < karıstırılmısHarfler.Length; j++)
+                for (int j = 0; j < metinDizisi.Length; j++)
                 {
-                    if (metinDizisi[i] == karıstırılmısHarfler[j])
+                    if (sonucMetin[i] == metinDizisi[j])
                     {
                         temp += kucukHarfler[j];
                     }

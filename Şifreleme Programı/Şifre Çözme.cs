@@ -28,31 +28,43 @@ namespace Şifreleme_Programı
         private void button1_Click(object sender, EventArgs e)
         {
             sifreleme.pSifre = txtBox_amac.Text;
-            txtBox_Hedef.Text = sifreleme.SifreCozme(cmBox_tur.SelectedIndex, (int)nmr_Key.Value, (int)nmr_Key2.Value);
+            txtBox_Hedef.Text = sifreleme.SifreCozme(cmBox_tur.SelectedIndex, (int)nmr_Key.Value, (int)nmr_Key2.Value, txtBox_key1.Text);
         }
 
         private void cmBox_tur_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmBox_tur.SelectedIndex == 2 || cmBox_tur.SelectedIndex == 5)
-            {
-                nmr_Key2.Visible = true;
-                lbl_key2.Visible = true;
-
-            }
-
-            if (cmBox_tur.SelectedIndex == 1 || cmBox_tur.SelectedIndex == 4 || cmBox_tur.SelectedIndex == 6 || cmBox_tur.SelectedIndex == 7)
-            {
-                nmr_Key2.Visible = false;
-                lbl_key2.Visible = false;
-
-            }
-            if (cmBox_tur.SelectedIndex == 0 || cmBox_tur.SelectedIndex == 3)
+            if (cmBox_tur.SelectedIndex == 0)
             {
                 nmr_Key.Visible = false;
                 label4.Visible = false;
                 nmr_Key2.Visible = false;
                 lbl_key2.Visible = false;
             }
+            if (cmBox_tur.SelectedIndex == 1 || cmBox_tur.SelectedIndex == 4 || cmBox_tur.SelectedIndex == 6 || cmBox_tur.SelectedIndex == 7)
+            {
+                nmr_Key2.Visible = false;
+                lbl_key2.Visible = false;
+                txtBox_key1.Visible = false;
+
+            }
+            if (cmBox_tur.SelectedIndex == 2 || cmBox_tur.SelectedIndex == 5)
+            {
+                nmr_Key.Visible = true;
+                label4.Visible = true;
+                nmr_Key2.Visible = true;
+                lbl_key2.Visible = true;
+                txtBox_key1.Visible = false;
+            }
+
+            if (cmBox_tur.SelectedIndex == 3)
+            {
+                nmr_Key.Visible = false;
+                label4.Visible = true;
+                nmr_Key2.Visible = false;
+                lbl_key2.Visible = false;
+                txtBox_key1.Visible = true;
+            }
+
             if (cmBox_tur.SelectedIndex == 1 || cmBox_tur.SelectedIndex == 4 || cmBox_tur.SelectedIndex == 6 || cmBox_tur.SelectedIndex == 7 || cmBox_tur.SelectedIndex == 2 || cmBox_tur.SelectedIndex == 5)
             {
                 nmr_Key.Visible = true;
@@ -98,6 +110,7 @@ namespace Şifreleme_Programı
             lbl_key2.Visible = false;
             nmr_Key.Visible = false;
             label4.Visible = false;
+            txtBox_key1.Visible = false;
         }
 
         private void nmr_Key_ValueChanged(object sender, EventArgs e)
