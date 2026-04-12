@@ -28,47 +28,51 @@ namespace Şifreleme_Programı
         private void button1_Click(object sender, EventArgs e)
         {
             sifreleme.pSifre = txtBox_amac.Text;
-            txtBox_Hedef.Text = sifreleme.SifreCozme(cmBox_tur.SelectedIndex, (int)nmr_Key.Value, (int)nmr_Key2.Value, txtBox_key1.Text);
+            txtBox_Hedef.Text = sifreleme.SifreCozme(cmBox_tur.SelectedIndex, (int)nmr_Key.Value, (int)nmr_Key2.Value, txtBox_key1.Text, txtBox_key2.Text);
         }
 
         private void cmBox_tur_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmBox_tur.SelectedIndex == 0)
-            {
-                nmr_Key.Visible = false;
-                label4.Visible = false;
-                nmr_Key2.Visible = false;
-                lbl_key2.Visible = false;
-            }
-            if (cmBox_tur.SelectedIndex == 1 || cmBox_tur.SelectedIndex == 4 || cmBox_tur.SelectedIndex == 6 || cmBox_tur.SelectedIndex == 7)
-            {
-                nmr_Key2.Visible = false;
-                lbl_key2.Visible = false;
-                txtBox_key1.Visible = false;
+            nmr_Key.Visible = false;
+            label4.Visible = false;
+            nmr_Key2.Visible = false;
+            lbl_key2.Visible = false;
+            txtBox_key1.Visible = false;
+            txtBox_key2.Visible = false;
 
-            }
-            if (cmBox_tur.SelectedIndex == 2 || cmBox_tur.SelectedIndex == 5)
+            switch (cmBox_tur.SelectedIndex)
             {
-                nmr_Key.Visible = true;
-                label4.Visible = true;
-                nmr_Key2.Visible = true;
-                lbl_key2.Visible = true;
-                txtBox_key1.Visible = false;
-            }
-
-            if (cmBox_tur.SelectedIndex == 3)
-            {
-                nmr_Key.Visible = false;
-                label4.Visible = true;
-                nmr_Key2.Visible = false;
-                lbl_key2.Visible = false;
-                txtBox_key1.Visible = true;
-            }
-
-            if (cmBox_tur.SelectedIndex == 1 || cmBox_tur.SelectedIndex == 4 || cmBox_tur.SelectedIndex == 6 || cmBox_tur.SelectedIndex == 7 || cmBox_tur.SelectedIndex == 2 || cmBox_tur.SelectedIndex == 5)
-            {
-                nmr_Key.Visible = true;
-                label4.Visible = true;
+                case 0:
+                    break;
+                case 1:
+                case 4:
+                case 6:
+                case 7:
+                    nmr_Key.Visible = true;
+                    label4.Visible = true;
+                    break;
+                case 2:
+                case 5:
+                    nmr_Key.Visible = true;
+                    label4.Visible = true;
+                    nmr_Key2.Visible = true;
+                    lbl_key2.Visible = true;
+                    break;
+                case 3:
+                case 8:
+                    txtBox_key1.Visible = true;
+                    label4.Visible = true;
+                    break;
+                case 9:
+                    txtBox_key1.Visible = true;
+                    label4.Visible = true;
+                    txtBox_key2.Visible = true;
+                    lbl_key2.Visible = true;
+                    break;
+                case 10:
+                    label4.Visible = true;
+                    txtBox_key1.Visible = true;
+                    break;
             }
         }
 
@@ -87,18 +91,13 @@ namespace Şifreleme_Programı
                 string[] tumSatirlar = File.ReadAllLines(secilenDosyaYolu); //txt nin tüm satırlarını okuyoruz
 
 
-
-                /*0-6 . satır arasını metadata olarak kullandığımız için almıyoruz
-                daha ileri seviyede otomatik kendi kendine algoritmayı anlayıp çözmesi için kodlar yazılabilir*/
-                for (int i = 6; i < tumSatirlar.Length; i++)
+                foreach (string satir in tumSatirlar)
                 {
-                    if (tumSatirlar[i].Contains("*")) // mesaj bitiş karakteri olarak son satırı * karakteri ile doldurduk
+                    // Güvenlik: Eğer satır boş değilse (sadece Enter'a basılıp geçilmemişse)
+                    if (!string.IsNullOrWhiteSpace(satir))
                     {
-                        break;
+                        okunanMetin += satir;
                     }
-
-                    //Yıldız yoksa, satırı okunanMetin değişkenine uç uca ekle
-                    okunanMetin += tumSatirlar[i];
                 }
             }
             txtBox_amac.Text = okunanMetin;
@@ -106,11 +105,13 @@ namespace Şifreleme_Programı
 
         private void Şifre_Çözme_Load(object sender, EventArgs e)
         {
-            nmr_Key2.Visible = false;
-            lbl_key2.Visible = false;
             nmr_Key.Visible = false;
             label4.Visible = false;
+            nmr_Key2.Visible = false;
+            lbl_key2.Visible = false;
             txtBox_key1.Visible = false;
+            txtBox_key2.Visible = false;
+
         }
 
         private void nmr_Key_ValueChanged(object sender, EventArgs e)

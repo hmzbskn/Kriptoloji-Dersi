@@ -44,6 +44,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btn_EpostaGonder = new System.Windows.Forms.Button();
             this.txtBox_key1 = new System.Windows.Forms.TextBox();
+            this.txtBox_key2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.num_key)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_key2)).BeginInit();
             this.SuspendLayout();
@@ -86,7 +87,10 @@
             "Yer Değiştirme ( Sayı Anahtarlı) ",
             "Permutasyon Şifreleme",
             "Rota Şifreleme",
-            "Zig Zag Şifreleme"});
+            "Zig Zag Şifreleme",
+            "Vinegere",
+            "4 Kare",
+            "Hill"});
             this.cmb_Tur.Location = new System.Drawing.Point(532, 261);
             this.cmb_Tur.Name = "cmb_Tur";
             this.cmb_Tur.Size = new System.Drawing.Size(232, 28);
@@ -196,12 +200,20 @@
             this.txtBox_key1.Size = new System.Drawing.Size(231, 26);
             this.txtBox_key1.TabIndex = 32;
             // 
+            // txtBox_key2
+            // 
+            this.txtBox_key2.Location = new System.Drawing.Point(532, 429);
+            this.txtBox_key2.Name = "txtBox_key2";
+            this.txtBox_key2.Size = new System.Drawing.Size(231, 26);
+            this.txtBox_key2.TabIndex = 33;
+            // 
             // Şifreleme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1286, 783);
+            this.Controls.Add(this.txtBox_key2);
             this.Controls.Add(this.txtBox_key1);
             this.Controls.Add(this.btn_EpostaGonder);
             this.Controls.Add(this.button2);
@@ -245,5 +257,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btn_EpostaGonder;
         private System.Windows.Forms.TextBox txtBox_key1;
+        private System.Windows.Forms.TextBox txtBox_key2;
     }
 }

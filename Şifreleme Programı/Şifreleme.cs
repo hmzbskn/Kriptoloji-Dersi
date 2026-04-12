@@ -26,62 +26,70 @@ namespace Şifreleme_Programı
         {
             sifreleme.pSifre = txtbox_amacMetin.Text;
             
-            txtbox_sonucMetin.Text = sifreleme.Sifreleme(cmb_Tur.SelectedIndex ,(int)num_key.Value, (int)num_key2.Value , txtBox_key1.Text);
+            txtbox_sonucMetin.Text = sifreleme.Sifreleme(cmb_Tur.SelectedIndex ,(int)num_key.Value, (int)num_key2.Value , txtBox_key1.Text , txtBox_key2.Text);
 
             btn_EpostaGonder.Enabled = true;
         }
 
         private void Şifreleme_Load(object sender, EventArgs e)
         {
-            num_key2.Visible = false;
-            lbl_Anahtar2.Visible = false;
-            btn_EpostaGonder.Enabled = false;
             num_key.Visible = false;
             label4.Visible = false;
+            num_key2.Visible = false;
+            lbl_Anahtar2.Visible = false;
             txtBox_key1.Visible = false;
+            txtBox_key2.Visible = false;
+            btn_EpostaGonder.Enabled = false;
         }
 
         private void cmb_Tur_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Önce hepsini gizle
+            num_key.Visible = false;
+            label4.Visible = false;
+            num_key2.Visible = false;
+            lbl_Anahtar2.Visible = false;
+            txtBox_key1.Visible = false;
+            txtBox_key2.Visible = false;
 
-            if (cmb_Tur.SelectedIndex == 0)
+            switch (cmb_Tur.SelectedIndex)
             {
-                num_key.Visible = false;
-                label4.Visible = false;
-                num_key2.Visible = false;
-                lbl_Anahtar2.Visible = false;
-            }
-            if (cmb_Tur.SelectedIndex == 1 || cmb_Tur.SelectedIndex == 4 || cmb_Tur.SelectedIndex == 6 || cmb_Tur.SelectedIndex == 7)
-            {
-                num_key2.Visible = false;
-                lbl_Anahtar2.Visible = false;
-                txtBox_key1.Visible = false;
+                case 0: // Sezar - hiçbir input yok
+                    break;
 
-            }
-            if (cmb_Tur.SelectedIndex == 2 || cmb_Tur.SelectedIndex == 5 )
-            {
-                num_key.Visible = true;
-                label4.Visible = true;
-                num_key2.Visible = true;
-                lbl_Anahtar2.Visible = true;
-                txtBox_key1.Visible = false;
-            }
+                case 1: // Kaydırmalı - sadece num_key
+                case 4: // Sayı Anahtarlı - sadece num_key
+                case 6: // Rota - sadece num_key
+                case 7: // Zig Zag - sadece num_key
+                    num_key.Visible = true;
+                    label4.Visible = true;
+                    break;
 
-            if (cmb_Tur.SelectedIndex == 3)
-            {
-                num_key.Visible = false;
-                label4.Visible = true;
-                num_key2.Visible = false;
-                lbl_Anahtar2.Visible = false;
-                txtBox_key1.Visible = true;
-            }
+                case 2: // Doğrusal - num_key + num_key2
+                case 5: // Permutasyon - num_key + num_key2
+                    num_key.Visible = true;
+                    label4.Visible = true;
+                    num_key2.Visible = true;
+                    lbl_Anahtar2.Visible = true;
+                    break;
 
-            if (cmb_Tur.SelectedIndex == 1 || cmb_Tur.SelectedIndex == 4 || cmb_Tur.SelectedIndex == 6 || cmb_Tur.SelectedIndex == 7 || cmb_Tur.SelectedIndex == 2 || cmb_Tur.SelectedIndex == 5)
-            {
-                num_key.Visible = true;
-                label4.Visible = true;
-            }
+                case 3: // Yer Değiştirme - txtBox_key1
+                case 8: // Vigenere - txtBox_key1
+                    txtBox_key1.Visible = true;
+                    label4.Visible = true;
+                    break;
 
+                case 9: // 4 Kare - txtBox_key1 + txtBox_key2
+                    txtBox_key1.Visible = true;
+                    label4.Visible = true;
+                    txtBox_key2.Visible = true;
+                    lbl_Anahtar2.Visible = true;
+                    break;
+                case 10:
+                    label4.Visible = true;
+                    txtBox_key1.Visible = true;
+                    break;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -43,6 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtBox_key1 = new System.Windows.Forms.TextBox();
+            this.txtBox_key2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nmr_Key)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmr_Key2)).BeginInit();
             this.SuspendLayout();
@@ -85,7 +86,10 @@
             "Yer Değiştirme ( Sayı Anahtarlı) ",
             "Permutasyon Şifreleme",
             "Rota Şifreleme",
-            "Zig Zag Şifreleme"});
+            "Zig Zag Şifreleme",
+            "Vinegere",
+            "4 Kare",
+            "Hill"});
             this.cmBox_tur.Location = new System.Drawing.Point(531, 230);
             this.cmBox_tur.Name = "cmBox_tur";
             this.cmBox_tur.Size = new System.Drawing.Size(232, 28);
@@ -187,11 +191,19 @@
             this.txtBox_key1.Size = new System.Drawing.Size(231, 26);
             this.txtBox_key1.TabIndex = 33;
             // 
+            // txtBox_key2
+            // 
+            this.txtBox_key2.Location = new System.Drawing.Point(532, 373);
+            this.txtBox_key2.Name = "txtBox_key2";
+            this.txtBox_key2.Size = new System.Drawing.Size(231, 26);
+            this.txtBox_key2.TabIndex = 34;
+            // 
             // Şifre_Çözme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1290, 682);
+            this.Controls.Add(this.txtBox_key2);
             this.Controls.Add(this.txtBox_key1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label5);
@@ -232,5 +244,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox txtBox_key1;
+        private System.Windows.Forms.TextBox txtBox_key2;
     }
 }

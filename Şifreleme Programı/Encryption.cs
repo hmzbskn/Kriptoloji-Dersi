@@ -94,32 +94,37 @@ namespace Şifreleme_Programı
 
         }
 
-        public string Sifreleme(int tur, int key1 = 0 , int key2 = 0, string sKey1 = "") 
+        public string Sifreleme(int tur, int key1 = 0, int key2 = 0, string sKey1 = "", string sKey2 = "")
         {
 
             metinTemizleme();
             switch (tur)
             {
                 case 0:
-                    return Sezar_Sifreleme(); // Tamam
+                    return Sezar_Sifreleme();
                 case 1:
-                    return KaydırmalıAlgoritma_Sifreleme(key1); // tamam
+                    return KaydırmalıAlgoritma_Sifreleme(key1);
                 case 2:
-                    return Doğrusal_Sifreleme(key1,key2); // tamam
+                    return Doğrusal_Sifreleme(key1, key2);
                 case 3:
-                    return YerDegistirme_Sifreleme(sKey1); // tamam
+                    return YerDegistirme_Sifreleme(sKey1);
                 case 4:
                     return SayiAnahtarli_Sifreleme(key1);
                 case 5:
-                    return Permutasyon_Sifreleme(key1, key2); // tamam
+                    return Permutasyon_Sifreleme(key1, key2);
                 case 6:
-                    return Rota_Sifreleme(key1); 
+                    return Rota_Sifreleme(key1);
                 case 7:
-                    return ZigZag_Sifreleme(key1); // tamam
+                    return ZigZag_Sifreleme(key1);
+                case 8:
+                    return Vigenere_Sifreleme(sKey1);
+                case 9:
+                    return DortKare_Sifreleme(sKey1, sKey2);
+                case 10:
+                    return Hill_Sifreleme(sKey1);
                 default:
                     MessageBox.Show("Algoritma seçilemedi");
                     return null;
-                    
             }
         }
         private string Sezar_Sifreleme()
@@ -373,7 +378,162 @@ namespace Şifreleme_Programı
             }
             return hedef;
         }
-        public string SifreCozme(int tur, int key1 = 0, int key2 = 0, string sKey1 = "") // anahtar için opsiyonel parametre yap
+        private string Vigenere_Sifreleme(string sKey1)
+        {
+            // anahtarı küçük harfe çeviriyor.
+            string temizAnahtar = "";
+            for (int i = 0; i < sKey1.Length; i++)
+            {
+                char c = sKey1[i];
+                for (int j = 0; j < kucukHarfler.Length; j++)
+                {
+                    if (c == kucukHarfler[j])
+                    {
+                        temizAnahtar += c;
+                        break;
+                    }
+                    else if (c == buyukHarfler[j])
+                    {
+                        temizAnahtar += kucukHarfler[j];
+                        break;
+                    }
+                }
+            }
+
+            if (temizAnahtar.Length == 0) return sonucMetin;
+
+            string temp = "";
+            int anahtarIndex = 0;
+
+            for (int i = 0; i < sonucMetin.Length; i++)
+            {
+                int metin_j = -1;
+                int anahtar_k = -1;
+
+                // Metin harfinin indeksini bul
+                for (int j = 0; j < kucukHarfler.Length; j++)
+                {
+                    if (sonucMetin[i] == kucukHarfler[j])
+                    {
+                        metin_j = j;
+                        break;
+                    }
+                }
+
+                // Anahtar harfinin indeksini bul
+                char anahtarHarf = temizAnahtar[anahtarIndex % temizAnahtar.Length];
+                for (int k = 0; k < kucukHarfler.Length; k++)
+                {
+                    if (anahtarHarf == kucukHarfler[k])
+                    {
+                        anahtar_k = k;
+                        break;
+                    }
+                }
+
+                if (metin_j != -1 && anahtar_k != -1)
+                {
+                    temp += kucukHarfler[(metin_j + anahtar_k) % 29];
+                    anahtarIndex++;
+                }
+            }
+
+            return temp;
+        }
+        private string DortKare_Sifreleme(string sKey1, string sKey2 = "")
+        {
+            char[] sagUst = TemizleAnahtar(sKey1.ToCharArray());
+            char[] solAlt = TemizleAnahtar(sKey2.ToCharArray());
+
+            if (sagUst.Length != 30 || solAlt.Length != 30) return sonucMetin;
+
+            char[,] matris = new char[12, 10];
+
+            char[] alfabeX = {
+            'a','b','c','ç','d','e','f','g','ğ','h',
+            'ı','i','j','k','l','m','n','o','ö','p',
+            'r','s','ş','t','u','ü','v','y','z','x'
+            };
+
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 5; j++)
+                {
+                    matris[i, j] = alfabeX[i * 5 + j];
+                    matris[i, j + 5] = sagUst[i * 5 + j];
+                    matris[i + 6, j] = solAlt[i * 5 + j];
+                    matris[i + 6, j + 5] = alfabeX[i * 5 + j];
+                }
+
+            string temp = "";
+
+            for (int i = 0; i + 1 < sonucMetin.Length; i += 2)
+            {
+                char harf1 = sonucMetin[i];
+                char harf2 = sonucMetin[i + 1];
+
+                int satir1 = -1, sutun1 = -1;
+                for (int r = 0; r < 6; r++)
+                    for (int c = 0; c < 5; c++)
+                        if (matris[r, c] == harf1) { satir1 = r; sutun1 = c; }
+
+                int satir2 = -1, sutun2 = -1;
+                for (int r = 6; r < 12; r++)
+                    for (int c = 5; c < 10; c++)
+                        if (matris[r, c] == harf2) { satir2 = r; sutun2 = c; }
+
+                if (satir1 == -1 || satir2 == -1) continue;
+
+                temp += matris[satir1, sutun2]; // Sağ Üst
+                temp += matris[satir2, sutun1]; // Sol Alt
+            }
+
+            if (sonucMetin.Length % 2 != 0)
+                temp += sonucMetin[sonucMetin.Length - 1];
+
+            return temp;
+        }
+        private string Hill_Sifreleme(string sKey1)
+        {
+            // Matrisi strinden oluştur
+            int[,] K = StringdenMatrisOlustur(sKey1);
+            if (K == null) return sonucMetin;
+
+            // Metni 3'erli bloklara böl, eksikse 'x' ile doldur
+            string doldurulmus = sonucMetin;
+            while (doldurulmus.Length % 3 != 0)
+                doldurulmus += 'x';
+
+            string temp = "";
+
+            for (int i = 0; i < doldurulmus.Length; i += 3)
+            {
+                // 3 harfin indekslerini bul
+                int[] vektor = new int[3];
+                for (int v = 0; v < 3; v++)
+                {
+                    for (int j = 0; j < kucukHarfler.Length; j++)
+                    {
+                        if (doldurulmus[i + v] == kucukHarfler[j])
+                        {
+                            vektor[v] = j;
+                            break;
+                        }
+                    }
+                }
+
+                // K × vektör (mod 29)
+                for (int r = 0; r < 3; r++)
+                {
+                    int toplam = 0;
+                    for (int c = 0; c < 3; c++)
+                        toplam += K[r, c] * vektor[c];
+                    temp += kucukHarfler[toplam % 29];
+                }
+            }
+
+            return temp;
+        }
+        public string SifreCozme(int tur, int key1 = 0, int key2 = 0, string sKey1 = "", string sKey2 = "")
         {
 
             metinTemizleme();
@@ -390,15 +550,20 @@ namespace Şifreleme_Programı
                 case 4:
                     return SayiAnahtarli_SifreCozme(key1);
                 case 5:
-                    return Permutasyon_SifreCozme(key1 , key2);
+                    return Permutasyon_SifreCozme(key1, key2);
                 case 6:
                     return Rota_SifreCozme(key1);
                 case 7:
                     return ZigZag_SifreCozme(key1);
+                case 8:
+                    return Vigenere_SifreCozme(sKey1);
+                case 9:
+                    return DortKare_SifreCozme(sKey1, sKey2);
+                case 10:
+                    return Hill_SifreCozme(sKey1);
                 default:
                     MessageBox.Show("Algoritma seçilemedi");
                     return null;
-
             }
         }
 
@@ -691,5 +856,251 @@ namespace Şifreleme_Programı
             }
             return temp;
         }
+        private string Vigenere_SifreCozme(string sKey1)
+        {
+            // Anahtarı temizle
+            string temizAnahtar = "";
+            for (int i = 0; i < sKey1.Length; i++)
+            {
+                char c = sKey1[i];
+                for (int j = 0; j < kucukHarfler.Length; j++)
+                {
+                    if (c == kucukHarfler[j])
+                    {
+                        temizAnahtar += c;
+                        break;
+                    }
+                    else if (c == buyukHarfler[j])
+                    {
+                        temizAnahtar += kucukHarfler[j];
+                        break;
+                    }
+                }
+            }
+
+            if (temizAnahtar.Length == 0) return sonucMetin;
+
+            string temp = "";
+            int anahtarIndex = 0;
+
+            for (int i = 0; i < sonucMetin.Length; i++)
+            {
+                int metin_j = -1;
+                int anahtar_k = -1;
+
+                // Metin harfinin indeksini bul
+                for (int j = 0; j < kucukHarfler.Length; j++)
+                {
+                    if (sonucMetin[i] == kucukHarfler[j])
+                    {
+                        metin_j = j;
+                        break;
+                    }
+                }
+
+                // Anahtar harfinin indeksini bul
+                char anahtarHarf = temizAnahtar[anahtarIndex % temizAnahtar.Length];
+                for (int k = 0; k < kucukHarfler.Length; k++)
+                {
+                    if (anahtarHarf == kucukHarfler[k])
+                    {
+                        anahtar_k = k;
+                        break;
+                    }
+                }
+
+                if (metin_j != -1 && anahtar_k != -1)
+                {
+                    // Çözme: (metin - anahtar + 29) mod 29
+                    temp += kucukHarfler[((metin_j - anahtar_k) % 29 + 29) % 29];
+                    anahtarIndex++;
+                }
+            }
+
+            return temp;
+        }
+
+        private string DortKare_SifreCozme(string sKey1, string sKey2 = "")
+        {
+            char[] sagUst = TemizleAnahtar(sKey1.ToCharArray());
+            char[] solAlt = TemizleAnahtar(sKey2.ToCharArray());
+
+            if (sagUst.Length != 30 || solAlt.Length != 30) return sonucMetin;
+
+            char[,] matris = new char[12, 10];
+
+            char[] alfabeX = {
+            'a','b','c','ç','d','e','f','g','ğ','h',
+            'ı','i','j','k','l','m','n','o','ö','p',
+            'r','s','ş','t','u','ü','v','y','z','x'
+            };
+
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 5; j++)
+                {
+                    matris[i, j] = alfabeX[i * 5 + j];
+                    matris[i, j + 5] = sagUst[i * 5 + j];
+                    matris[i + 6, j] = solAlt[i * 5 + j];
+                    matris[i + 6, j + 5] = alfabeX[i * 5 + j];
+                }
+
+            string temp = "";
+
+            for (int i = 0; i + 1 < sonucMetin.Length; i += 2)
+            {
+                char sifreli1 = sonucMetin[i];
+                char sifreli2 = sonucMetin[i + 1];
+
+                int satir1 = -1, sutun1 = -1;
+                for (int r = 0; r < 6; r++)
+                    for (int c = 5; c < 10; c++)
+                        if (matris[r, c] == sifreli1) { satir1 = r; sutun1 = c; }
+
+                int satir2 = -1, sutun2 = -1;
+                for (int r = 6; r < 12; r++)
+                    for (int c = 0; c < 5; c++)
+                        if (matris[r, c] == sifreli2) { satir2 = r; sutun2 = c; }
+
+                if (satir1 == -1 || satir2 == -1) continue;
+
+                temp += matris[satir1, sutun2]; // Sol Üst
+                temp += matris[satir2, sutun1]; // Sağ Alt
+            }
+
+            if (sonucMetin.Length % 2 != 0)
+                temp += sonucMetin[sonucMetin.Length - 1];
+
+            return temp;
+        }
+
+        private string Hill_SifreCozme(string sKey1)
+        {
+            int[,] K = StringdenMatrisOlustur(sKey1);
+            if (K == null) return sonucMetin;
+
+            int[,] K_ters = MatrisTersiBul(K);
+            if (K_ters == null)
+            {
+                MessageBox.Show("Bu matrisin modu 29'a göre tersi bulunamadı!");
+                return sonucMetin;
+            }
+
+            string temp = "";
+
+            for (int i = 0; i + 2 < sonucMetin.Length; i += 3)
+            {
+                int[] vektor = new int[3];
+                //metni 3 e bölerek sayısal değerleri buluyoruz
+                for (int v = 0; v < 3; v++)
+                {
+                    for (int j = 0; j < kucukHarfler.Length; j++)
+                    {
+                        if (sonucMetin[i + v] == kucukHarfler[j])
+                        {
+                            vektor[v] = j;
+                            break;
+                        }
+                    }
+                }
+
+                // K⁻¹ × vektör (mod 29)
+                for (int r = 0; r < 3; r++)
+                {
+                    int toplam = 0;
+                    for (int c = 0; c < 3; c++)
+                        toplam += K_ters[r, c] * vektor[c];
+                    temp += kucukHarfler[((toplam % 29) + 29) % 29];
+                }
+            }
+
+            return temp;
+        }
+        private int[,] StringdenMatrisOlustur(string sKey1)
+        {
+            string[] parcalar = sKey1.Split(',');
+            if (parcalar.Length != 9) return null;
+
+            int[,] matris = new int[3, 3];
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    if (!int.TryParse(parcalar[i * 3 + j].Trim(), out matris[i, j]))
+                        return null;
+
+            return matris;
+        }
+        private int[,] MatrisTersiBul(int[,] K)
+        {
+            int mod = 29;
+
+            // 1. Determinant hesapla
+            int det = K[0, 0] * (K[1, 1] * K[2, 2] - K[1, 2] * K[2, 1])
+                    - K[0, 1] * (K[1, 0] * K[2, 2] - K[1, 2] * K[2, 0])
+                    + K[0, 2] * (K[1, 0] * K[2, 1] - K[1, 1] * K[2, 0]);
+
+            det = ((det % mod) + mod) % mod;
+
+            // 2. Determinantın mod 29 tersini bul
+            int det_ters = -1;
+            for (int x = 1; x < mod; x++)
+            {
+                if ((det * x) % mod == 1)
+                {
+                    det_ters = x;
+                    break;
+                }
+            }
+            if (det_ters == -1) return null;
+
+            // 3. Kofaktör matrisini hesapla ve mod 29 al
+            int[,] kofaktor = new int[3, 3];
+
+            kofaktor[0, 0] = (((K[1, 1] * K[2, 2] - K[1, 2] * K[2, 1]) % mod) + mod) % mod;
+            kofaktor[0, 1] = ((-(K[1, 0] * K[2, 2] - K[1, 2] * K[2, 0]) % mod) + mod) % mod;
+            kofaktor[0, 2] = (((K[1, 0] * K[2, 1] - K[1, 1] * K[2, 0]) % mod) + mod) % mod;
+            kofaktor[1, 0] = ((-(K[0, 1] * K[2, 2] - K[0, 2] * K[2, 1]) % mod) + mod) % mod;
+            kofaktor[1, 1] = (((K[0, 0] * K[2, 2] - K[0, 2] * K[2, 0]) % mod) + mod) % mod;
+            kofaktor[1, 2] = ((-(K[0, 0] * K[2, 1] - K[0, 1] * K[2, 0]) % mod) + mod) % mod;
+            kofaktor[2, 0] = (((K[0, 1] * K[1, 2] - K[0, 2] * K[1, 1]) % mod) + mod) % mod;
+            kofaktor[2, 1] = ((-(K[0, 0] * K[1, 2] - K[0, 2] * K[1, 0]) % mod) + mod) % mod;
+            kofaktor[2, 2] = (((K[0, 0] * K[1, 1] - K[0, 1] * K[1, 0]) % mod) + mod) % mod;
+
+            // kofaktörün × det_ters → mod 29
+            int[,] ters = new int[3, 3];
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    ters[i, j] = (kofaktor[i, j] * det_ters) % mod;
+
+            return ters;
+        }
+        private char[] TemizleAnahtar(char[] raw)
+        {
+            char[] alfabeX = {
+                'a','b','c','ç','d','e','f','g','ğ','h',
+                'ı','i','j','k','l','m','n','o','ö','p',
+                'r','s','ş','t','u','ü','v','y','z','x'
+            };
+
+            string temiz = "";
+            for (int i = 0; i < raw.Length; i++)
+            {
+                char c = raw[i];
+                for (int j = 0; j < alfabeX.Length; j++)
+                {
+                    // x için büyük harf kontrolü ayrı, diğerleri buyukHarfler'den (29 eleman)
+                    bool kucukEsit = (c == alfabeX[j]);
+                    bool buyukEsit = (j < 29 && c == buyukHarfler[j]);
+                    bool xEsit = (j == 29 && (c == 'X' || c == 'x'));
+
+                    if (kucukEsit || buyukEsit || xEsit)
+                    {
+                        if (!temiz.Contains(alfabeX[j]))
+                            temiz += alfabeX[j];
+                        break;
+                    }
+                }
+            }
+            return temiz.ToCharArray();
+        }
+
     }
 }
